@@ -30,7 +30,7 @@ namespace System.Utilities.Cryptography
 		private const int Bits192 = 24;
 		private const int Bits256 = 32;
 
-		private static string ConvertToUnsecureString(System.Security.SecureString securePassword)
+		public static string ConvertToUnsecureString(System.Security.SecureString securePassword)
 		{
 			if (securePassword == null)
 				throw new ArgumentNullException("securePassword");
