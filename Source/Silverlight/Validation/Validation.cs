@@ -22,15 +22,17 @@ namespace System.Utilities
 	/// </summary>
 	public static class Validation
 	{
-		private readonly static Regex MatchFileName;
-		private readonly static Regex MatchHTTPURI;
-		private readonly static Regex MatchIPv4;
-		private readonly static Regex MatchIPv6;
-		private readonly static Regex MatchEmail;
-		private readonly static Regex MatchPhone1;
-		private readonly static Regex MatchPhone2;
-		private readonly static Regex MatchAlphaNumeric;
-		private readonly static Regex MatchNumeric;
+		private static readonly Regex MatchFileName;
+		private static readonly Regex MatchHTTPURI;
+		private static readonly Regex MatchIPv4;
+		private static readonly Regex MatchIPv6;
+		private static readonly Regex MatchEmail;
+		private static readonly Regex MatchPhone1;
+		private static readonly Regex MatchPhone2;
+		private static readonly Regex MatchZIP;
+		private static readonly Regex MatchZIP5;
+		private static readonly Regex MatchAlphaNumeric;
+		private static readonly Regex MatchNumeric;
 
 		static Validation()
 		{
@@ -41,6 +43,8 @@ namespace System.Utilities
 			MatchEmail = new Regex(@"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 			MatchPhone1 = new Regex("^(1\\s*[-\\/\\.]?)?(\\((\\d{3})\\)|(\\d{3}))\\s*[-\\/\\.]?\\s*(\\d{3})\\s*[-\\/\\.]?\\s*(\\d{4})\\s*(([xX]|[eE][xX][tT])\\.?\\s*(\\d+))*$", RegexOptions.Singleline);
 			MatchPhone2 = new Regex("^([\\(]?(?<AreaCode>[0-9]{3})[\\)]?)?[ \\.\\-]?(?<Exchange>[0-9]{3})[ \\.\\-](?<Number>[0-9]{4})$", RegexOptions.Singleline);
+			MatchZIP = new Regex("^\\d{5}(?:[-\\s]\\d{4})?$", RegexOptions.Singleline);
+			MatchZIP5 = new Regex("^\\d{5}$", RegexOptions.Singleline);
 			MatchAlphaNumeric = new Regex("^[a-zA-Z0-9]", RegexOptions.Singleline);
 			MatchNumeric = new Regex("^[0-9]", RegexOptions.Singleline);
 		}
@@ -84,7 +88,7 @@ namespace System.Utilities
 		{
 			return MatchIPv6.IsMatch(IPv6);
 		}
-		
+
 		/// <summary>
 		/// Tests whether input string is a valid phone number.
 		/// </summary>
@@ -103,6 +107,27 @@ namespace System.Utilities
 		public static bool IsValidEmailAddress(string EmailAddress)
 		{
 			return MatchEmail.IsMatch(EmailAddress);
+		}
+
+		/// <summary>
+		/// Tests whether input string is a valid 5 or 9 digit ZIP Code.
+		/// Expected format: #####, ##### ####, or #####-####.
+		/// </summary>
+		/// <param name="ZIP">5 or 9 digit ZIP code to test.</param>
+		/// <returns>Boolean success or fail.</returns>
+		public static bool IsValidZIP(string ZIP)
+		{
+			return MatchZIP.IsMatch(ZIP);
+		}
+
+		/// <summary>
+		/// Tests whether input string is a valid 5 digit ZIP Code.
+		/// </summary>
+		/// <param name="ZIP5">5 digit ZIP Code to test.</param>
+		/// <returns>Boolean success or fail.</returns>
+		public static bool IsValidZIP5(string ZIP5)
+		{
+			return MatchZIP5.IsMatch(ZIP5);
 		}
 
 		/// <summary>
